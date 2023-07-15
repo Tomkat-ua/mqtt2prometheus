@@ -1,0 +1,25 @@
+config:
+  mqtt:
+    host: 89.117.37.128
+    port: 1883
+    user: mqtt
+    password: mqtt001
+#    topic_path: "esphome/devices/+/sensor/+/state"
+#    topic_path: "monitors/#"
+    topic_path: "esphome/devices/#"
+  http:
+    port: 8081
+
+  parsing:
+    index_device: 2
+    index_sensor: 4
+
+  loging:
+    index: 3
+    topic: "debug"
+
+  metric:
+    name: "esp_sensor_state"
+    help: "Return sensor data"
+    topic: "sensor"
+    index: 3
