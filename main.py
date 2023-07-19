@@ -6,15 +6,15 @@ from paho.mqtt import client as mqtt_client
 from prometheus_client import start_http_server, Gauge
 from time import sleep as sleep
 ########### TEST ###################################
-import confuse
+# import confuse
 # import argparse
-config = confuse.Configuration('MQTT-Prom', __name__)
-config.set_file('./config.yml')
-# value = config['config'][2]['param1'].get()
-int_value = config['config']['param2'].get(int)
-str_value = config['config']['mqtt']['host'].get()
-print(int_value)
-print(str_value)
+# config = confuse.Configuration('MQTT-Prom', __name__)
+# config.set_file('./config.yml')
+# # value = config['config'][2]['param1'].get()
+# int_value = config['config']['param2'].get(int)
+# str_value = config['config']['mqtt']['host'].get()
+# print(int_value)
+# print(str_value)
 
 ######
 
