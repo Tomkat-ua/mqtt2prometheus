@@ -5,7 +5,6 @@ import random
 from paho.mqtt import client as mqtt_client
 from prometheus_client import start_http_server, Gauge
 from time import sleep as sleep
-from box import Box
 
 ######
 # with open('config.yml', 'r') as file:
@@ -59,8 +58,6 @@ APP_CONFIG = Gauge('app_config', 'Return app config',['http_port','get_delay','b
 APP_INFO.labels(appname,appshortname,appver,env).set(1)
 
 def config_read():
-    conf = Box.from_yaml(filename="config.yml", Loader=yaml.FullLoader)
-    print(conf.get('name'))
     with open('config.yml', 'r') as file:
         config_file = yaml.safe_load(file)
         # config_file = yaml.load(file, Loader=yaml.FullLoader)
