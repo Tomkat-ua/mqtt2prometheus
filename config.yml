@@ -1,4 +1,6 @@
+
 config:
+  param2: 2
   mqtt:
     host: 89.117.37.128
     port: 1883
@@ -19,7 +21,13 @@ config:
     topic: "debug"
 
   metric:
-    name: "esp_sensor_state"
-    help: "Return sensor data"
-    topic: "sensor"
-    index: 3
+    sensor:
+      name: "esp_sensor_state"
+      help: "Return sensor data"
+      topic: "sensor"
+      index: 3
+    device:
+      name: "esp_device_info"
+      help: "Return device data"
+      topic: "sensor"
+      index: 3
