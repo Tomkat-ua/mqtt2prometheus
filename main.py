@@ -39,7 +39,7 @@ class Topic:
 #         # self.mqtt.password = None
 
 #### GLOBAL Vars --------------------
-appver = "0.0.3"
+appver = "0.0.4"
 appname = "MQTT to Prometheus metrics extractor"
 appshortname = "MQTT-Prom"
 print(appname + " ver. "+appver)
@@ -86,7 +86,6 @@ def config_read():
     globals()["topic_pattern"] = config_file['config']['mqtt']['topic_path']
     globals()["http_port"] = config_file['config']['http']['port']
     globals()["parsing_index_device"] = config_file['config']['parsing']['index_device']
-    globals()["parsing_index_sensor"] = config_file['config']['parsing']['index_sensor']
     globals()["parsing_index_sensor"] = config_file['config']['parsing']['index_sensor']
 
     globals()["metric_sensor_name"] = config_file['config']['metric']['sensor']['name']
@@ -169,7 +168,7 @@ def run():
 if __name__ == '__main__':
     config_read()
     METRICA_SENSOR = Gauge(metric_sensor_name, metric_sensor_help, ['device', 'sensor'])
-    METRICA_DEVICE = Gauge(metric_device_name, metric_device_help, ['device', 'sensor', 'value'])
+    METRICA_DEVICE = Gauge(metric_device_name, metric_device_help, ['device', 'param', 'value'])
     APP_CONFIG.labels(http_port, get_delay, broker, broker_port, topic_pattern).set(1)
     try:
         start_http_server(http_port)
