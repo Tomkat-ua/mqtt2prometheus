@@ -1,5 +1,8 @@
 paho-mqtt
 prometheus-client
 pyyaml
+conf
+# numpy
+# torch
 # confuse
 

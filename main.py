@@ -1,20 +1,57 @@
-
+# from utils import load_hparam,  DotDict
 from datetime import datetime
+
+import prometheus_client
 import yaml
 import random
 from paho.mqtt import client as mqtt_client
 from prometheus_client import start_http_server, Gauge
 from time import sleep as sleep
+
+
 ########### TEST ###################################
-# import confuse
-# import argparse
-# config = confuse.Configuration('MQTT-Prom', __name__)
-# config.set_file('./config.yml')
-# # value = config['config'][2]['param1'].get()
-# int_value = config['config']['param2'].get(int)
-# str_value = config['config']['mqtt']['host'].get()
-# print(int_value)
-# print(str_value)
+# class Metrica:
+#     name  = None
+#     index = None
+#     help  = None
+#     topic = None
+#     value = None
+
+# metrics=[]
+ms=[]
+def metrics_create():
+    # metrics=[]
+    with open("test.yml") as f:
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
+
+    for m in cfg['config']['metrics']:
+        # metrica = Metrica()
+        # metrica.name  = m['name']
+        # metrica.index = m['index']
+        # metrica.help  = m['help']
+        # metrica.topic = m['topic']
+        # metrics.append(metrica)
+
+    # for metrica in metrics:
+    #     m1 = prometheus_client.Gauge(metrica.name, metrica.help, [metrica.topic, 'value'])
+        m1 = prometheus_client.Gauge(m['name'], m['help'], [m['topic'], 'value'])
+
+        ms.append(m1)
+        # print(metrica.name,metrica.topic,metrica.value)
+        # m.labels(metrica.topic, 'value').set(0)
+
+    # for metrica in metrics:
+    #
+    #     Gauge.labels('topic','value').set(0)
+    #     # APP_CONFIG.labels(http_port, get_delay, broker, broker_port, topic_pattern).set(1)
+    #
+def metrics_set(topic,value):
+    for m in ms:
+        print(m)
+        m.labels(topic, value).set(0)
+    # print(ms.)
+    # m_index = ms.index(ms.)
+    # print(m_index)
 
 ######
 
@@ -39,7 +76,7 @@ class Topic:
 #         # self.mqtt.password = None
 
 #### GLOBAL Vars --------------------
-appver = "0.0.4"
+appver = "0.2.1"
 appname = "MQTT to Prometheus metrics extractor"
 appshortname = "MQTT-Prom"
 print(appname + " ver. "+appver)
@@ -69,9 +106,15 @@ client_id = f'python-mqtt-{random.randint(0, 100)}'
 
 ####------------------------------------------------
 
+# hp.model.device = hp.model.device.lower()
+# print(l.to_dict(['metrics']))
+
+# with open('test.yml', 'r') as file:
+#     config_test = yaml.load(file,loader)
+#     print(config_test['config']['metrics'])
 #####---------------------------------------------------
 APP_INFO = Gauge('app_info', 'Return app info',['appname','appshortname','version','env'])
-APP_CONFIG = Gauge('app_config', 'Return app config',['http_port','get_delay','broker','broker_port','topic_pattern'])
+APP_CONFIG = Gauge('app_config', 'Return app config',['id','http_port','get_delay','broker','broker_port','topic_pattern'])
 APP_INFO.labels(appname,appshortname,appver,env).set(1)
 
 def config_read():
@@ -101,7 +144,7 @@ def config_read():
     globals()["loging_index"] = config_file['config']['loging']['index']
     globals()["loging_topic"] = config_file['config']['loging']['topic']
 
-    print(config_file)
+    # print(config_file)
     file.close()
     print('-----------------------------------------------------')
     # print('broker:',broker,':',broker_port)
@@ -166,13 +209,15 @@ def run():
     client.loop_forever()
 
 if __name__ == '__main__':
+    metrics_create()
+    metrics_set('topic1','value1')
     config_read()
-    METRICA_SENSOR = Gauge(metric_sensor_name, metric_sensor_help, ['device', 'sensor'])
-    METRICA_DEVICE = Gauge(metric_device_name, metric_device_help, ['device', 'param', 'value'])
-    APP_CONFIG.labels(http_port, get_delay, broker, broker_port, topic_pattern).set(1)
+    # METRICA_SENSOR = Gauge(metric_sensor_name, metric_sensor_help, ['device', 'sensor'])
+    # METRICA_DEVICE = Gauge(metric_device_name, metric_device_help, ['device', 'param', 'value'])
+    APP_CONFIG.labels(appshortname,http_port, get_delay, broker, broker_port, topic_pattern).set(1)
     try:
         start_http_server(http_port)
     except Exception as e: print(e)
     while True:
-        run()
-
+        # run()
+        a = 1
